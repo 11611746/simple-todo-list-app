@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes,faCheck,faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck,faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const List = (props) => {
     
