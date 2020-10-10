@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare,faPlus,faListUl,faMinusSquare,faTrash,faStrikethrough } from '@fortawesome/free-solid-svg-icons';
+import { faPlus,faListUl } from '@fortawesome/free-solid-svg-icons';
 import List from './List'
+import CompletedList from './CompletedList'
 
 const App = () => {
-
-  let footerText;
 
   const [list,updateList] = useState('');
   const [listItems,updateListItems] = useState([]);
 
+  //insert character one by one
   const listItem = (character) => {
     updateList(character.target.value);
   }
 
+  //to insert and delete list
   const InsertList = () => {
     updateListItems((oldListItems) => {
       return [...oldListItems, list];
@@ -21,17 +22,56 @@ const App = () => {
     updateList('');
   }
 
-  const removeItem = (id) =>{
-  
+  const removeItem = (id) =>{  
         updateListItems((oldListItems) => {
           return oldListItems.filter((currentItem, indexNo) => {
             return indexNo !== id;
           })
         })
     }
+  
+    //to insert and delete completed list
+    const [listComp,updateListComp] = useState([]);
+    const strikeItem = (id,val) =>{ 
+      updateListItems((oldListItems) => {
+          return oldListItems.filter((currentItem, indexNo) => {
+            return indexNo !== id;
+          })
+        })
+      updateListComp((oldListItems) => {
+      return [...oldListItems, val];
+    });        
+    }
 
-    if(listItems.length===0){
+    const removeCompletedItem = (id) =>{  
+        updateListComp((oldListItems) => {
+          return oldListItems.filter((currentItem, indexNo) => {
+            return indexNo !== id;
+          })
+        })
+    }
+
+    //display menu
+    const [dis,updateDis] = useState('mr-3 d-none');
+    const showListMenu = () =>{
+      updateDis('mr-3');
+    }
+
+    //hide menu
+    const hideListMenu = () =>{
+      updateDis('mr-3 d-none');
+    }
+
+    //to check the list id=s empty or not    
+    let footerText;
+    if(listItems.length===0 && listComp.length===0){
       footerText = 'Your Bucket Is Empty';
+    }
+
+    //to check complete list
+    let headingComp;
+    if(listComp.length>0){
+      headingComp = "Completed List"
     }
 
   return (
@@ -63,9 +103,24 @@ const App = () => {
                         id = {index}
                         propsValue = {listValue}
                         onSelect = {removeItem}
+                        onClicked = {strikeItem}
+                        onShowMenu = {showListMenu}
+                        onDoubleClicked = {hideListMenu}
+                        display = {dis}
                       />
                     )
-                  })}                  
+                  })}
+                  <li className="mt-5 mb-3">{headingComp}</li>
+                  {listComp.map((listValue,index)=>{
+                    return (
+                      <CompletedList 
+                        key = {index}
+                        id = {index}
+                        propsValue = {listValue}
+                        onSelect = {removeCompletedItem}
+                      />
+                    )
+                  })}                       
                 </ol>
                 <p class="card-text py-4">{footerText}</p>
               </div>
