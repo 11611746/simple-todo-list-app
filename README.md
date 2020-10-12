@@ -66,3 +66,39 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### npm run deploy error
+> simple-todo-list-app@0.1.0 deploy D:\Programming\ReactJs\github\simple-todo-list-app
+> gh-pages -d build
+
+Failed to get remote.origin.url (task must either be run in a git repository with a configured origin remote or must be configured with the "repo" option).
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! simple-todo-list-app@0.1.0 deploy: `gh-pages -d build`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the simple-todo-list-app@0.1.0 deploy script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\PAUL\AppData\Roaming\npm-cache\_logs\2020-10-10T10_54_24_434Z-debug.log
+
+### Solution for npm run deploy error
+I just had the same issue and was able to resolve it. Here's what I did:
+
+
+>In my terminal, run git remote -v,
+  D:\Programming\ReactJs\github\simple-todo-list-app>git remote -v
+  simple-todo-list-app    https://github.com/11611746/simple-todo-list-app.git (fetch)
+  simple-todo-list-app    https://github.com/11611746/simple-todo-list-app.git (push)
+
+>I did not see any remote's withe the name 'origin'. So, I added one with 
+>git remote add origin <url>, with the URL of my repository on Github.
+  D:\Programming\ReactJs\github\simple-todo-list-app>git remote -v
+  origin  https://github.com/11611746/simple-todo-list-app.git (fetch)
+  origin  https://github.com/11611746/simple-todo-list-app.git (push)
+  simple-todo-list-app    https://github.com/11611746/simple-todo-list-app.git (fetch)
+  simple-todo-list-app    https://github.com/11611746/simple-todo-list-app.git (push)
+
+>My other remote pointed to the same url, it just wasn't called 'origin'.
+>Then, when I ran 'npm run deploy' everything worked. I hope this helps, though it's a year after you last posting.
